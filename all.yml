@@ -1,0 +1,16 @@
+---
+- name: Add host entries
+  hosts: all
+  remote_user: kp807
+  become: yes
+  become_method: sudo
+  roles:
+    - hosts
+
+- name: Manage basics on a slurmctld host
+  hosts: slurmctlds
+  remote_user: kp807
+  become: yes
+  become_method: sudo
+  roles:
+    - slurmctld
