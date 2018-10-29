@@ -27,6 +27,15 @@ At this point, this is a somewhat general way to automate some tasks for ERN (Ea
 
 ## Small primer on ansible 
 
-- roles = like modules. In this case 2 roles: `hosts` (generates /etc/hosts file) and `slurmctld` (
+- inventory = list of machines on which to execute the tasks. This is in the `hosts` file on top level. For now contains only mace. 
+- roles = like modules. In this case 2 roles: 
+    - `hosts` (generates /etc/hosts entries) and 
+    - `slurmctld` (change in slurm.conf i.e. reconfiguring slurmctld)
 - tasks = individual pieces of instruction to perform on remote hosts
-- handlers = services need to be notified when they need to be restarted
+- handlers = services need to be notified when they need to be restarted. You don't want to restart the service after every taks - only when needed. 
+
+
+## Some reasons for choosing this design
+
+- the reason for not pushing the whole `/etc/hosts` file as a whole is that it would rewrite whatever the local people already have there in case of an update (e.g. because of adding a new member to the federation). In general, it is better to write ansible tasks so that particlular lines are modified. The intent of the task is clearer, and the scope of change is smaller. 
+- the reason for not making ip a hostvar but rather a group var is that every host needs to be able to talk to every other host. So every host needs to be aware of all the other ip's in the federation. 
