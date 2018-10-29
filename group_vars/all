@@ -1,0 +1,87 @@
+---
+# A list of all hosts
+hosts:
+  # Rutgers
+  - name: ern.hpc.rutgers.edu
+    alias: 
+     - ern
+    ip: 128.6.226.170
+    services:
+      - slurmdbd
+      - elasticsearch
+  - name: ern.local
+    ip: 192.168.9.201
+  - name: mace.hpc.rutgers.edu
+    alias:
+     - mace
+    ip: 128.6.226.171
+    services:
+      - slurmctld
+  - name: mace.local
+    ip: 192.168.9.202
+  - name: mace1
+    ip: 192.168.9.203
+  - name: mace2
+    ip: 192.168.9.204
+  
+  - name: khan.hpc.rutgers.edu
+    alias:
+     - khan
+    ip: 128.6.226.173
+  - name: khan.local
+    ip: 192.168.9.208
+  
+  - name: riker.hpc.rutgers.edu
+    alias:
+     - riker
+    ip: 128.6.226.174
+  - name: riker.local
+    ip: 192.168.9.209
+  
+  # MGHPC
+  - name: mfedhpc0
+    alias:
+     - mfedhpc
+    ip: 192.69.102.195
+  
+  # Syracuse
+  - name: otto
+    alias:
+     - its-nefed-01.syr.edu
+    ip: 128.230.21.15
+  
+  # NJ Edge
+  - name: edge
+    ip: 130.156.250.14
+  
+  # gcloud
+  - name: gcloud
+    alias:
+     - 23.188.211.35.bc.googleusercontent.com
+    ip: 35.211.188.23
+  
+  # acg
+  - name: acg
+    alias:
+     - ern-poc.acg.maine.edu
+    ip: 130.111.46.212
+
+# elasticsearch host defs
+elasticsearch:
+  host: ern.hpc.rutgers.edu
+  ip: 128.6.226.170
+  port: 8123
+
+networks:
+ Rutgers:
+  - 128.6.226.160/255.255.255.224
+ MGHPCC:
+  - 192.69.102.192/255.255.255.224
+ Syracuse:
+  - 128.230.21.0/255.255.255.0
+ NJ_Edge:
+  - 130.156.250.14/255.255.255.255
+ gcloud:
+  - 35.211.188.23/255.255.255.255
+ ACG:
+  - 130.111.46.212/255.255.255.255

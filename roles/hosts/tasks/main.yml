@@ -1,0 +1,10 @@
+---
+- name: Add ERN Hosts to /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ item.ip }} {{ item.name }}{{ item.alias | default([]) | join(' ') | regex_replace('^(\\w)',' \\1') }}"
+    regexp: "^{{ item.ip | regex_replace('\\.','\\.') }} "
+    state: present
+  loop: "{{ hosts }}"
+  loop_control:
+    label: "{{ item.name }}"
