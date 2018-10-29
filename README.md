@@ -33,6 +33,9 @@ At this point, this is a somewhat general way to automate some tasks for ERN (Ea
     - `slurmctld` (change in slurm.conf i.e. reconfiguring slurmctld)
 - tasks = individual pieces of instruction to perform on remote hosts
 - handlers = services need to be notified when they need to be restarted. You don't want to restart the service after every taks - only when needed. 
+- templating = jinja2 templates have several tips and tricks. In particular, strings can be transformed easily. 
+    - `{{ item.name }}` will evaluate to the value of `item.name`
+    - `{{ item.alias | default([]) | join(' ') | regex_replace('^(\\w)',' \\1') }}`  will start with item.alias list and send it through pipe (`|`) to replace with empty list if not defined, then join with spaces then add a space at the beginning of the string if the string starts with a word character. 
 
 
 ## Some reasons for choosing this design
