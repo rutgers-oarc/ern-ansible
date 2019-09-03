@@ -1,0 +1,6 @@
+---
+# defaults file for slurm_update_2019_08
+
+slurm_config: /root/slurm.conf
+slurm_config_directory: /etc/slurm.d
+slurm_config_ern: "{{ slurm_config_directory }}/ern-config"

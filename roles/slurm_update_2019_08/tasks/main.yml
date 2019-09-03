@@ -1,0 +1,59 @@
+---
+# tasks file for slurm_update_2019_08
+
+- name: Get contents of {{ slurm_config }}
+  become: yes
+  shell: "cat {{ slurm_config }}"
+  register: slurm_config_output
+
+#- name: Display slurm config
+#  debug:
+#    msg="{{ slurm_config_output.stdout_lines }}"
+
+- name: Save slurm config locally because you never know.
+  become: yes
+  copy: content="{{ slurm_config_output.stdout }}" dest="{{ ansible_env.HOME }}/{{ inventory_hostname }}-slurm.conf-{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"
+
+- name: Create slurm configuration directory
+  become: yes
+  file:
+    path: "{{ slurm_config_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '755'
+
+- name: Comment out any line with SelectType in it
+  become: yes
+  replace:
+    path: "{{ slurm_config }}"
+    regexp: '(^SelectType=.*)'
+    replace: '#\1'
+  notify:
+    - restart slurmctld
+
+- name: Comment out any line with SelectTypeParameters in it
+  become: yes
+  replace:
+    path: "{{ slurm_config }}"
+    regexp: '(^SelectTypeParameters=.*)'
+    replace: '#\1'
+  notify:
+    - restart slurmctld
+
+- name: Add include file to ERN configuration
+  become: yes
+  lineinfile:
+    path: "{{ slurm_config }}"
+    regexp: '^include {{ slurm_config_ern }}'
+    line: 'include {{ slurm_config_ern }}'
+  notify:
+    - restart slurmctld
+
+- name: Add ERN site configuration
+  become: yes
+  template:
+    src=ern-config.j2
+    dest="{{ slurm_config_directory }}/ern-config"
+  notify:
+    - restart slurmctld

@@ -1,0 +1,8 @@
+---
+# handlers file for slurm_update_2019_08
+
+- name: restart slurmctld
+  service:
+    name: slurmctld
+    state: restarted
+
