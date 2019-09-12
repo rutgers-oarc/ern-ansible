@@ -42,3 +42,8 @@ At this point, this is a somewhat general way to automate some tasks for ERN (Ea
 
 - the reason for not pushing the whole `/etc/hosts` file as a whole is that it would rewrite whatever the local people already have there in case of an update (e.g. because of adding a new member to the federation). In general, it is better to write ansible tasks so that particlular lines are modified. The intent of the task is clearer, and the scope of change is smaller. 
 - the reason for not making ip a hostvar but rather a group var is that every host needs to be able to talk to every other host. So every host needs to be aware of all the other ip's in the federation. 
+
+## Update 2019 August
+
+- Modified the slurm database configuration to use include files for an easier way to make changes moving forward.
+- Configured slurm to allocate by core and not by node to better allocate resources to the customers.
